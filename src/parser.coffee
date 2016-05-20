@@ -127,6 +127,7 @@ class VASTParser
                             for wrappedAd in wrappedResponse.ads
                                 wrappedAd.errorURLTemplates = ad.errorURLTemplates.concat wrappedAd.errorURLTemplates
                                 wrappedAd.impressionURLTemplates = ad.impressionURLTemplates.concat wrappedAd.impressionURLTemplates
+                                wrappedAd.extensionTemplate = ad.extensionTemplate.concat wrappedAd.extensionTemplate
 
                                 if ad.trackingEvents?
                                     for creative in wrappedAd.creatives

@@ -3,8 +3,7 @@ class VASTAd
         @id = null
         @errorURLTemplates = []
         @impressionURLTemplates = []
-		@extensionTemplate = []        
-        @creatives = []
-		
+        @extensionTemplate = []        
+        @creatives = []	
 
 module.exports = VASTAd
