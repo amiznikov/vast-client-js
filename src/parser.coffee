@@ -127,7 +127,11 @@ class VASTParser
                             for wrappedAd in wrappedResponse.ads
                                 wrappedAd.errorURLTemplates = ad.errorURLTemplates.concat wrappedAd.errorURLTemplates
                                 wrappedAd.impressionURLTemplates = ad.impressionURLTemplates.concat wrappedAd.impressionURLTemplates
-                                wrappedAd.extensionTemplate = ad.extensionTemplate.concat wrappedAd.extensionTemplate
+                                merge = (dest, objs...) ->
+                                  for obj in objs
+                                    dest[k] = v for k, v of obj
+                                  dest                                
+                                wrappedAd.extensionTemplate = merge {}, ad.extensionTemplate, wrappedAd.extensionTemplate
 
                                 if ad.trackingEvents?
                                     for creative in wrappedAd.creatives
