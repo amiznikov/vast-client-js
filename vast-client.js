@@ -312,6 +312,7 @@ VASTAd = (function() {
     this.impressionURLTemplates = [];
     this.extensionTemplate = [];
     this.creatives = [];
+    this.adsystem = "";
   }
 
   return VASTAd;
@@ -588,11 +589,13 @@ VASTNonLinear = _dereq_('./nonlinear');
 EventEmitter = _dereq_('events').EventEmitter;
 
 VASTParser = (function() {
-  var URLTemplateFilters;
+  var AdSystem, URLTemplateFilters;
 
   function VASTParser() {}
 
   URLTemplateFilters = [];
+
+  AdSystem = "";
 
   VASTParser.addURLTemplateFilter = function(func) {
     if (typeof func === 'function') {
@@ -849,6 +852,7 @@ VASTParser = (function() {
     var ad, creative, wrapperCreativeElement, wrapperURLElement, _i, _len, _ref;
     ad = this.parseInLineElement(wrapperElement);
     wrapperURLElement = this.childByName(wrapperElement, "VASTAdTagURI");
+    AdSystem = this.parseNodeText(this.childByName(wrapperElement, "AdSystem"));
     if (wrapperURLElement != null) {
       ad.nextWrapperURL = this.parseNodeText(wrapperURLElement);
     } else {
@@ -886,6 +890,13 @@ VASTParser = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       node = _ref[_i];
       switch (node.nodeName) {
+        case "AdSystem":
+          if (!AdSystem) {
+            ad.adsystem = this.parseNodeText(node);
+          } else {
+            ad.adsystem = AdSystem;
+          }
+          break;
         case "Error":
           ad.errorURLTemplates.push(this.parseNodeText(node));
           break;

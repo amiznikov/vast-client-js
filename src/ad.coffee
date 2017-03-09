@@ -5,5 +5,6 @@ class VASTAd
         @impressionURLTemplates = []
         @extensionTemplate = []        
         @creatives = []	
+        @adsystem = ""
 
 module.exports = VASTAd

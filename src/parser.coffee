@@ -12,6 +12,7 @@ EventEmitter = require('events').EventEmitter
 
 class VASTParser
     URLTemplateFilters = []
+    AdSystem = ""
 
     @addURLTemplateFilter: (func) ->
         URLTemplateFilters.push(func) if typeof func is 'function'
@@ -176,6 +177,7 @@ class VASTParser
     @parseWrapperElement: (wrapperElement) ->
         ad = @parseInLineElement wrapperElement
         wrapperURLElement = @childByName wrapperElement, "VASTAdTagURI"
+        AdSystem = @parseNodeText @childByName wrapperElement, "AdSystem"
         if wrapperURLElement?
             ad.nextWrapperURL = @parseNodeText wrapperURLElement
         else
@@ -202,7 +204,12 @@ class VASTParser
         ad.id = inLineElement.id
 
         for node in inLineElement.childNodes
-            switch node.nodeName
+            switch node.nodeName                
+                when "AdSystem"
+                    if !AdSystem
+                        ad.adsystem = @parseNodeText node
+                    else 
+                        ad.adsystem = AdSystem
                 when "Error"
                     ad.errorURLTemplates.push (@parseNodeText node)
 
